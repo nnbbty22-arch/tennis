@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    image: backend-image
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mysql://user:password@db:3306/database_name
+
+  frontend:
+    image: frontend-image
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: database_name
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
